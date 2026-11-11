@@ -1,0 +1,9 @@
+{
+  "@id": "/approved/distribution/a",
+  "@type": "Distribution",
+  "asset": {
+    "@id": "/approved/asset/a"
+  },
+  "download": "/approved/data/a",
+  "format": "csv"
+}

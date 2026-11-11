@@ -1,0 +1,5 @@
+{
+  "@id": "/approved/asset/a",
+  "@type": "Asset",
+  "title": "冲突的目录标题"
+}

@@ -1,0 +1,30 @@
+{
+  "@graph": [
+    {
+      "@id": "/approved/asset/a",
+      "@type": "Asset",
+      "title": "合成观测集",
+      "distribution": {
+        "@id": "/approved/distribution/a"
+      },
+      "grant": {
+        "@id": "/approved/license/a"
+      },
+      "asset_id": "remote-a",
+      "kind": "source",
+      "owner": "synthetic-owner",
+      "columns": [
+        {
+          "name": "text",
+          "type": "string",
+          "classification": "internal",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "@id": "_:note",
+      "text": "仅本页备注"
+    }
+  ]
+}

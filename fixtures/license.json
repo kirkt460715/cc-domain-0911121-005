@@ -1,0 +1,27 @@
+{
+  "@id": "/approved/license/a",
+  "@type": "Grant",
+  "asset": {
+    "@id": "/approved/asset/a"
+  },
+  "purposes": [
+    "research"
+  ],
+  "regions": [
+    "CN"
+  ],
+  "expires_at": "2027-11-01T00:00:00Z",
+  "grant_id": "remote-a-grant",
+  "rights": [
+    "read"
+  ],
+  "valid_from": "2026-01-01T00:00:00Z",
+  "obligations": [
+    "attribution"
+  ],
+  "columns": [
+    "text"
+  ],
+  "max_depth": 3,
+  "allow_derivatives": false
+}

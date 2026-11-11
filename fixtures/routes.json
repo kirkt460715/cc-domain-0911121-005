@@ -1,0 +1,29 @@
+{
+  "/approved/catalog": {
+    "file": "catalog.json"
+  },
+  "/approved/distribution/a": {
+    "file": "distribution.json"
+  },
+  "/approved/license/a": {
+    "file": "license.json"
+  },
+  "/approved/asset/a": {
+    "file": "catalog.json"
+  },
+  "/approved/conflict": {
+    "file": "conflict.json"
+  },
+  "/approved/redirect": {
+    "status": 302,
+    "headers": {
+      "Location": "/outside"
+    },
+    "body": {}
+  },
+  "/outside": {
+    "body": {
+      "scope": "未授权"
+    }
+  }
+}
