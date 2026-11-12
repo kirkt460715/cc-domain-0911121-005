@@ -4,6 +4,7 @@ from rights_graph.journal import audit
 from rights_graph.catalog import assets, recipes, importing
 from rights_graph.policy import grants, analysis
 from rights_graph.policy.proposals import ProposalDesk
+from rights_graph.harvest.desk import HarvestDesk
 from rights_graph.planner import plans, builds, artifacts, inspection, invalidation, topology, recovery
 from rights_graph.planner.preview import PreviewEngine
 from rights_graph.planner.campaigns import Campaigns
@@ -17,6 +18,7 @@ class RightsService:
         self.proposals = ProposalDesk(self.store)
         self.campaigns = Campaigns(self.store)
         self.deliveries = DeliveryDesk(self.store)
+        self.harvest = HarvestDesk(self.store)
 
     def __enter__(self):
         return self
@@ -244,6 +246,45 @@ class RightsService:
         if operation == 'delivery.acknowledge_alert':
             fields(data, {'alert_id', 'recipient'})
             return self.deliveries.acknowledge_alert(**data)
+        if operation == 'harvest.source.register':
+            fields(data, {'source_id', 'entry_url', 'origin', 'path_prefix', 'max_documents', 'max_bytes'})
+            return self.harvest.register(**data)
+        if operation == 'harvest.source.update':
+            fields(data, {'source_id'}, {'max_documents', 'max_bytes', 'state'})
+            return self.harvest.update(**data)
+        if operation == 'harvest.source.get':
+            fields(data, {'source_id'})
+            return self.harvest.source(**data)
+        if operation == 'harvest.source.list':
+            fields(data, set())
+            return self.harvest.sources()
+        if operation == 'harvest.run':
+            fields(data, {'source_id'})
+            return self.harvest.run(**data)
+        if operation == 'harvest.run.get':
+            fields(data, {'run_id'})
+            return self.harvest.run_view(**data)
+        if operation == 'harvest.candidates':
+            fields(data, {'source_id'})
+            return self.harvest.candidates(**data)
+        if operation == 'harvest.candidate.get':
+            fields(data, {'candidate_id'})
+            return self.harvest.candidate(**data)
+        if operation == 'harvest.candidate.resolve':
+            fields(data, {'candidate_id', 'field', 'value', 'reviewer', 'reason'})
+            return self.harvest.resolve(**data)
+        if operation == 'harvest.candidate.confirm':
+            fields(data, {'candidate_id', 'reviewer', 'reason', 'expected_evidence_digest', 'expected_catalog_version'})
+            return self.harvest.confirm(**data)
+        if operation == 'harvest.candidate.reopen':
+            fields(data, {'candidate_id', 'reviewer', 'reason'})
+            return self.harvest.reopen(**data)
+        if operation == 'harvest.candidate.reject':
+            fields(data, {'candidate_id', 'reviewer', 'reason'})
+            return self.harvest.reject_candidate(**data)
+        if operation == 'harvest.candidate.apply':
+            fields(data, {'candidate_id', 'operator'})
+            return self.harvest.apply(**data)
         if operation == 'audit.page':
             fields(data, set(), {'after', 'limit'})
             return audit.page(self.store, **data)

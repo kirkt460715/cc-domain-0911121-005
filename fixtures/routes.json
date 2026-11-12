@@ -14,6 +14,15 @@
   "/approved/conflict": {
     "file": "conflict.json"
   },
+  "/approved/portfolio": {
+    "file": "portfolio.json"
+  },
+  "/approved/license/gone": {
+    "status": 404,
+    "body": {
+      "error": "当前无法获取"
+    }
+  },
   "/approved/redirect": {
     "status": 302,
     "headers": {

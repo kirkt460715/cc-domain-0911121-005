@@ -67,6 +67,18 @@ def check(store):
             actual = sorted((item['source_asset'], item['source_version'], item['grant_id'], item['grant_revision']) for item in store.all('SELECT * FROM artifact_inputs WHERE artifact_id=?', (row['artifact_id'],)))
             if expected != actual:
                 problems.append({'code': 'artifact_input_index', 'artifact_id': row['artifact_id']})
+        for row in store.all('SELECT * FROM harvest_candidates ORDER BY candidate_id'):
+            stored = {'evidence': json.loads(row['evidence']), 'missing': json.loads(row['missing']), 'conflicts': json.loads(row['conflicts']), 'notices': json.loads(row['notices'])}
+            if checksum(stored) != row['evidence_digest']:
+                problems.append({'code': 'harvest_evidence_digest', 'candidate_id': row['candidate_id']})
+            if row['state'] == 'applied':
+                if not store.one('SELECT asset_id FROM assets WHERE asset_id=?', (row['applied_asset'],)):
+                    problems.append({'code': 'harvest_applied_asset', 'candidate_id': row['candidate_id']})
+                if not store.one("SELECT grant_id FROM grants WHERE grant_id=?", (row['applied_grant'],)):
+                    problems.append({'code': 'harvest_applied_grant', 'candidate_id': row['candidate_id']})
+        for row in store.all('SELECT * FROM harvest_confirmations ORDER BY candidate_id,ordinal'):
+            if not store.one('SELECT candidate_id FROM harvest_candidates WHERE candidate_id=?', (row['candidate_id'],)):
+                problems.append({'code': 'harvest_confirmation_orphan', 'candidate_id': row['candidate_id']})
         return {'ok': not problems, 'problems': problems, 'database': database, 'audit': journal, 'graph': graph}
 
 

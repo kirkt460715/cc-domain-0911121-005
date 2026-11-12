@@ -1,0 +1,13 @@
+{
+  "@graph": [
+    {
+      "@id": "/approved/asset/a"
+    },
+    {
+      "@id": "/approved/conflict"
+    },
+    {
+      "@id": "/approved/license/a"
+    }
+  ]
+}
